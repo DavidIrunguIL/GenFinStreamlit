@@ -88,7 +88,7 @@ def consolidate_revenue_account(claims_data,prev_bel,current_bel,insurance_reven
             claims_prev_lic['Gross Incurred'] = -claims_prev_lic['DISCOUNTED GROSS BEL LIC_prev'] +\
                                         claims_prev_lic['total_gross_paid'] +\
                                         claims_prev_lic['DISCOUNTED GROSS BEL LIC_curr']
-            claims_prev_lic.to_excel('C:/Users/dkirungu.ICEALIONGROUP/Downloads/IncuredClaims.xlsx', index = False)
+            # claims_prev_lic.to_excel('C:/Users/dkirungu.ICEALIONGROUP/Downloads/IncuredClaims.xlsx', index = False)
 
             claims_incured = claims_prev_lic[['DEPARTMENT','ReoIncurred','Gross Incurred']]
             claims_incured["DEPARTMENT"] = claims_incured["DEPARTMENT"].replace("MISCELLANEOUS ACCIDENT", "MISCELLANEOUS")
@@ -107,12 +107,12 @@ def consolidate_revenue_account(claims_data,prev_bel,current_bel,insurance_reven
             ###############################################################################
             claims_data = revenue_data[0]
             revenue_data = adjusting_ins_revenue(revenue_data[1] , current_year,prev_year)
-            revenue_data.to_excel('C:/Users/dkirungu.ICEALIONGROUP/Downloads/adjusted_insurance_revenue_.xlsx', index=False)
+            # revenue_data.to_excel('C:/Users/dkirungu.ICEALIONGROUP/Downloads/adjusted_insurance_revenue_.xlsx', index=False)
             revenue_data['Department'] = revenue_data['Department'].str.strip()
             revenue_data["Department"] = revenue_data["Department"].replace("MISCELLANEOUS ACCIDENT", "MISCELLANEOUS")
             ##claims
             incured_claim_data = get_claims_incured(claims_data, prev_bel_df, current_bel_df)
-            incured_claim_data.to_excel('C:/Users/dkirungu.ICEALIONGROUP/Downloads/incured_claims.xlsx', index=False)
+            # incured_claim_data.to_excel('C:/Users/dkirungu.ICEALIONGROUP/Downloads/incured_claims.xlsx', index=False)
 
 
             realigned_bel = current_bel_df.copy()
@@ -221,7 +221,7 @@ def consolidate_revenue_account(claims_data,prev_bel,current_bel,insurance_reven
                 logger.error(f'Error updating P&L variables::{e}')
 
             # final_template_with_REO['YTD_Apr_2025'] = final_template_with_REO.iloc[:13].sum(numeric_only=True)
-            final_template_with_REO.T.to_excel(f'C:/Users/dkirungu.ICEALIONGROUP/Downloads/IFRS17_Revenue_Account_{MONTH}2.xlsx', index=True)
+            final_template_with_REO.T.to_excel(f"G:/Shared drives/ACCOUNT_GENERAL/FINANCE_WEBAPP_OUTPUT/reporting/IFRS17_Automated_Output.xlsx", index=True)
             logger.info("IFRS 17 Revenue Account Template created successfully.")
         except Exception as e:
             logger.error(f"Error in main function: {e}")

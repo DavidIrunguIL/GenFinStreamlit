@@ -77,9 +77,7 @@ class BankReconciliation:
         bounced_cheques_data = merged_df[merged_df['Clean_Cheque_No'].isin(bounced_cheques['Clean_Cheque_No'])]
         # bounced_cheques_data.to_excel("C:/Users/dkirungu.ICEALIONGROUP/Downloads/bounced_cheques.xlsx", index=False)
 
-        
-
-        with pd.ExcelWriter("C:/Users/dkirungu.ICEALIONGROUP/Downloads/BANKRECON.xlsx") as writer:
+        with pd.ExcelWriter("G:/Shared drives/ACCOUNT_GENERAL/FINANCE_WEBAPP_OUTPUT/treasury/BANKRECON.xlsx") as writer:
             matching_items.to_excel(writer, sheet_name='Matching Items', index=False)
             unclearing_items.to_excel(writer, sheet_name='Unclearing Items', index=False)
             unreceipted_items.to_excel(writer, sheet_name='Unreceipted Items', index=False)
