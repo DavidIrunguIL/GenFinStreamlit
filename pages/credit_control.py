@@ -198,7 +198,7 @@ with tab3:
     else:
         # Mocking or loading a default dataset if nothing has been uploaded yet in Tab 1
         try:
-            score_df = pd.read_excel("C:/Users/dkirungu.ICEALIONGROUP/Documents/finance/credit_control/CustomerMapping/data/post_modeling_data.xlsx")
+            score_df = pd.read_excel("G:/Shared drives/ACCOUNT_GENERAL/FINANCE_WEBAPP_OUTPUT/credit_control/customer_segmentation/post_modeling_data.xlsx")
         except:
             st.warning("⚠️ Please upload and map your ICEA Statement in the 'Reconcile' tab to see live calculations, or ensure 'your_data.csv' is in your workspace.")
             st.stop()

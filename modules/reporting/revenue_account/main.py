@@ -27,7 +27,7 @@ PARENT_DIR = f'G:/Shared drives/ACCOUNTS - GENERAL BUSINESS/REVENUE_DATASETS/{YE
 
 
 def consolidate_revenue_account(claims_data,prev_bel,current_bel,insurance_revenue_output,
-         current_loss_component,prev_loss_component,IFIE_data):
+         current_loss_component,prev_loss_component, expenses_data,IFIE_data):
     try:
         print(f"IFRS 17 Processor started for month: {MONTH}")
         logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -107,7 +107,7 @@ def consolidate_revenue_account(claims_data,prev_bel,current_bel,insurance_reven
             ###############################################################################
             claims_data = revenue_data[0]
             revenue_data = adjusting_ins_revenue(revenue_data[1] , current_year,prev_year)
-            # revenue_data.to_excel('C:/Users/dkirungu.ICEALIONGROUP/Downloads/adjusted_insurance_revenue_.xlsx', index=False)
+            revenue_data.to_excel('G:/Shared drives/ACCOUNT_GENERAL/FINANCE_WEBAPP_OUTPUT/reporting/adjusted_insurance_revenue_.xlsx', index=False)
             revenue_data['Department'] = revenue_data['Department'].str.strip()
             revenue_data["Department"] = revenue_data["Department"].replace("MISCELLANEOUS ACCIDENT", "MISCELLANEOUS")
             ##claims
@@ -138,7 +138,7 @@ def consolidate_revenue_account(claims_data,prev_bel,current_bel,insurance_reven
             IFIE_data.rename(columns={'PUBLIC LIABILITY':'LIABILITIES',
                                     'MISCELLANEOUS ACCIDENT':'MISCELLANEOUS'}, inplace=True)
             ######################################################################################
-            def read_expenses(PARENT_DIR, MONTH, LAST_MONTH):
+            def read_expenses(expenses_data):
                 # Try with MONTH
                 # files = glob.glob(f"{PARENT_DIR}/EXPENSE PORTFOLIO/{MONTH}*/*Expense*")
                 # if files:  # Found files
@@ -149,12 +149,12 @@ def consolidate_revenue_account(claims_data,prev_bel,current_bel,insurance_reven
                 #         raise FileNotFoundError(f"No EXPENSE file found for {MONTH} or {LAST_MONTH}")
                 #     file_path = files[0]
 
-                expenses_data = pd.read_excel("G:/Shared drives/ACCOUNTS - GENERAL BUSINESS/REVENUE_DATASETS/2026/EXPENSE  PORTFOLIO/MAY 2026/IFRS 17 Expense Allocation Manual Journal- ILG MAY 2026.xlsx", 
+                expenses_data = pd.read_excel(expenses_data, 
                                         sheet_name='PER PORTIFOLIO')
                 logger.info(f"SUCCCESSFULLY EXTRACTED EXPENSE PORTFOLIO")
                 return expenses_data
             
-            expenses_data = read_expenses(PARENT_DIR, MONTH, LAST_MONTH)    
+            expenses_data = read_expenses(expenses_data)    
             logger.info(f"successfully read EXPENSE data.")              
             
                 
@@ -194,7 +194,7 @@ def consolidate_revenue_account(claims_data,prev_bel,current_bel,insurance_reven
             p_and_L.index = p_and_L['variable']
             
 
-            processor = IFRS17Processor(revenue_data, incured_claim_data, expenses_data, realigned_bel,prev_realigned_bel, current_loss_component, prev_loss_component,IFIE_data)
+            processor = IFRS17Processor(revenue_data, incured_claim_data, realigned_bel,prev_realigned_bel, current_loss_component, prev_loss_component,expenses_data,IFIE_data)
             final_template = processor.update_revenue_account_template()
             final_template_with_REO = processor.update_reinsurance_section(final_template)
             YTD_Apr_2025 = final_template_with_REO.iloc[:13].sum()

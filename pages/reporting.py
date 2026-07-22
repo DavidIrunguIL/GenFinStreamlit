@@ -124,7 +124,7 @@ with tab3:
             expenses = st.file_uploader("Upload Expenses", type=["xlsx", "xls", "csv"])
             if expenses:
                 st.info("Expenses uploaded successfully.")
-                st.session_state['expenses_data'] = expenses
+                st.session_state['EXPENSE_data'] = expenses
         except Exception as e:
             st.warning(f"Error uploading Expenses: {e}")
 
@@ -161,6 +161,7 @@ with tab3:
             current_loss = st.session_state.get('current_loss_data')
             prev_loss = st.session_state.get('previous_loss_data')
             ifie_data = st.session_state.get('ifie_data')
+            expenses_data = st.session_state.get('EXPENSE_data')
             # Note: expenses_data is fetched inside your main via hardcoded path, 
             # but we pass the placeholder fields your main signature requires
 
@@ -176,7 +177,8 @@ with tab3:
                     current_bel, 
                     ins_rev_out,     # insurance_revenue_output
                     current_loss, 
-                    prev_loss, 
+                    prev_loss,
+                    expenses_data,
                     ifie_data
                 )
                 st.success("Revenue Account generated successfully!")

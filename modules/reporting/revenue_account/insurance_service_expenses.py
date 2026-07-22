@@ -12,8 +12,8 @@ logger = logging.getLogger(__name__)
 
 MONTH = (dt.today() - timedelta(days=30)).strftime('%b')
 class IFRS17Processor:
-    def __init__(self, revenue_data, incured_claim_data, expenses_data, realigned_bel,prev_realigned_bel,
-                 current_loss_component=None, prev_loss_component=None, IFIE_data=None):
+    def __init__(self, revenue_data, incured_claim_data, realigned_bel,prev_realigned_bel,
+                 current_loss_component=None, prev_loss_component=None,expenses_data=None, IFIE_data=None):
         self.revenue_data = revenue_data
         self.incured_claim_data = incured_claim_data
         self.expenses_data = expenses_data
@@ -162,7 +162,7 @@ class IFRS17Processor:
 
     def get_expenses(self, revenue_template):
         try:
-            df = self.expenses_data
+            df = self.expenses_data.copy()
             df.set_index('Unnamed: 0', inplace=True)
             df = df.T
             df.index = df.index.str.upper()
